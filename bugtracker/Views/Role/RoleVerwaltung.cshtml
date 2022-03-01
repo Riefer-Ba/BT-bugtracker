@@ -1,0 +1,24 @@
+﻿@model bugtracker.Models.Role
+
+@{
+    ViewData["Title"] = "Create new user Role";
+}
+
+<div class="card" style="width: 21.5em;">
+  <div class="card-body">
+    <h5 class="card-title">Create new Role</h5>
+
+    @*creation Button Form*@
+    <form asp-action="RoleVerwaltung" method="post" >
+         <div class="row">
+             <div class="col">
+                  <input asp-for="RoleName" placeholder="Name of new role, Creation unadviced" class="form-control" />
+            </div>
+         </div>
+    <button type="submit" class="btn btn-info">Create Role</button>
+    </form>
+    <div class="card-footer">
+        While creation of new roles is possible, a newly created role has no Authorization.
+    </div>
+  </div>
+</div>

@@ -1,0 +1,142 @@
+﻿@model bugtracker.Models.Bug;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = ViewData["Message"];
+}
+
+
+
+
+
+@*Bug data in table*@
+<br>
+<table class="table table-bordered border-dark">
+  <tbody>
+                        <tr>
+                            <td class="table-active">Bug Id:</td>
+                            <td> @ViewBag.CurrentBug.Id</td>
+                            <td class="table-active">Severity:</td>
+                            <td> @ViewBag.CurrentBug.Severity</td>
+                        </tr>
+
+                        <tr>
+                            <td class="table-active">Category:</td>
+                            <td> @ViewBag.CurrentBug.Category</td>
+                            <td class="table-active">Priority:</td>
+                            <td> @ViewBag.CurrentBug.Priority</td>
+                        </tr>
+
+                        <tr>
+                            <td class="table-active">Posted by:</td>
+                            <td> <a asp-action="UserOverview" asp-controller="User" 
+                                asp-route-Id="@ViewBag.CurrentBug.PostedByUser" >@ViewBag.CurrentBug.PostedByUser</a> </td> 
+                            <td class="table-active">Short description:</td>
+                            <td> @ViewBag.CurrentBug.Description</td> 
+                        </tr>
+
+                        <tr>
+                            <td class="table-active">Status:</td>
+                            <td> @ViewBag.CurrentBug.Status</td> 
+                            <td class="table-active"> Assigned to:</td>
+                            <td> <a asp-action="UserOverview" asp-controller="User" 
+                                asp-route-Id="@ViewBag.CurrentBug.AssignedToUser" > @ViewBag.CurrentBug.AssignedToUser</a> </td> 
+                        </tr>
+  </tbody>
+  
+</table>
+
+
+
+
+
+<div class="card card-primary ">
+    <div class="card-header">
+    <h5>Additional Information</h5>
+    </div>
+
+  <div class="card-body">
+         <div class="row">
+             <div class="col">
+                  <textarea input asp-for="Details" placeholder="Detailed bug description" class="form-control" rows="5"></textarea>
+             </div>
+         </div>    
+  </div>
+  
+</div>
+
+
+
+<div class="btn-group float-end" role="group" >
+          @* Manage User *@
+        @if (SignInManager.IsSignedIn(User) && @ViewBag.CurrentBug.AssignedToUser == null)
+        {
+            <form asp-action="AssignUserToBug" asp-route-Id="@ViewBag.CurrentBug.Id">
+            <button type="submit" class="btn btn-info float-end btn-outline-dark">Assign myself to this bug</button>
+            </form>
+        }
+          <form asp-action="CreateBug" asp-route-Id="@ViewBag.CurrentBug.Id">
+        <button type="submit" class="btn btn-info float-end btn-outline-dark">Edit Bug</button>
+        </form>
+</div>
+
+
+
+<br>
+<br>
+
+
+@*this 'delete Bug' Popup only works with the added script below*@
+<div> 
+    <div class="container">  
+        <div class="row">  
+            <div class="col-xs-12">  
+
+                <button id="btnShowModal" type="button"  
+                        class="btn btn-sm btn-default pull-left col-lg-11 button button4">  
+                    <h3>Click here to delete this bug</h3>
+                </button>  
+
+                <div class="modal fade" id="deleteModal">  
+                    <div class="modal-dialog modal-lg">  
+
+                        <div class="modal-content">  
+                            <div class="modal-header">  
+                                <h4 class="modal-title"> Delete Bug </h4>  
+                            </div>  
+                            <div class="modal-body">  
+                                You are about to delete this bug. Only delete bugs when it's a wrong report or a duplicate of another bug.
+                                Otherwise set the Status to closed.
+                            </div>  
+                            <div class="modal-footer">  
+                                <form asp-action="DeleteBug" asp-route-Id="@ViewBag.CurrentBug.Id">
+                                    <button type="submit" class="btn btn-danger">delete</button>
+                                </form>
+
+                                <button type="button" id="btnHideModal" class="btn btn-primary button button4">  
+                                    Cancel
+                                </button>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+@*bootstrap javascript plugin for Popup*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
+<script src="bootstrap/js/bootstrap.min.js"></script>  
+<script type="text/javascript">  
+    $(document).ready(function () {  
+        $("#btnShowModal").click(function () {  
+            $("#deleteModal").modal('show');  
+        });  
+  
+        $("#btnHideModal").click(function () {  
+            $("#deleteModal").modal('hide');  
+        });  
+    });  
+</script>  

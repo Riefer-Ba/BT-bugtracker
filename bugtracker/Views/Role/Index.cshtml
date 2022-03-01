@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<IdentityRole>
+
+@{
+    ViewData["Title"] = "Role overview";
+}
+<h1>@ViewData["Title"]</h1>
+<h2>View roles and their respective authorizations.</h2>
+<hr />
+
+<div class= "row">
+@foreach(var role in Model){
+
+    <div class="card" style="width: 23rem;" >
+        <div class="card-header">
+           FeaturedRole: <h3>@role.Name</h3>
+        </div>
+
+        @{if(role.Name == "Admin"){
+        <ul class="list-group list-group-flush">
+             <li class="list-group-item">Manage Users and roles</li>
+             <li class="list-group-item">Create new roles</li>
+             <li class="list-group-item">Assign Users to bugs</li>
+             <li class="list-group-item">All User authorization</li>
+        </ul>
+        }
+        else{
+             <ul class="list-group list-group-flush">
+             <li class="list-group-item">Create new bugs</li>
+             <li class="list-group-item">Edit existing bugs</li>
+             <li class="list-group-item">Access to role overview</li>
+        </ul>
+        }
+}
+
+        <div class="card-footer mt-auto">
+                <form asp-action="EditUsers" asp-route-Id="@role.Id">
+	            	<button type="submit" class="btn btn-primary float-end mt-auto">Manage Users</button>
+	            </form>
+        </div>
+
+    </div>
+}
+
+
+
+<div class="card" style="width: 23em;">
+        <div class="card-header">
+           FeaturedRole: <h3>registered User</h3>
+        </div>
+         <ul class="list-group list-group-flush">
+             <li class="list-group-item">Just registered Users have no role yet</li>
+             <li class="list-group-item">Have no access to role overview</li>
+             <li class="list-group-item">Have access to bug overview</li>
+        </ul>
+
+</div>
+</div>
+
+
+<form asp-action="RoleVerwaltung">
+	<button type="submit" class="btn btn-info">Create new User-Role</button>
+</form>
+

@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Bug overview";
+}
+
+@*the following links are for table styling and sorting*@
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css"> 
+<script src="//code.jquery.com/jquery.js"></script> 
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+
+@*the following links are for table searching, enabling data-filter-control*@
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+
+@*data-page-list="[10, 25, 50, 100, ALL]"*@
+<br>
+<table class="table table-hover table-light" data-toggle="table" data-sort-order="desc" data-filter-control="true">
+    <thead>
+        <tr>
+             <th scope="col" data-sortable="true">#</th>
+             <th data-field="Priority" data-sortable="true" data-filter-control="select">Priority</th>
+             <th data-field="Status" data-sortable="true" data-filter-control="input">Status </th>
+             <th data-field="Severity" data-sortable="true" data-filter-control="select">Severity</th>
+             <th data-field="Category" data-sortable="true" data-filter-control="select" >Category</th>
+             <th data-field="Description"  data-filter-control="input" >Description</th>
+             <th scope="col">edit</th>
+        </tr>
+    </thead>
+
+  <tbody>
+                @foreach(Bug i in ViewBag.CurrentBugs)
+                { 
+                     if(i.Status != "closed")
+                     {
+                          <tr>
+                             <td> <a asp-action="DetailedBugOverview" asp-route-Id="@i.Id">@i.Id</a></td>
+                             <td> @i.Priority</td>
+                             <td> @i.Status  @if(i.AssignedToUser != null)
+                        {
+                            <a asp-controller="User" asp-action="UserOverview" asp-route-Id="@i.AssignedToUser"> (@i.AssignedToUser) </a> 
+                        }
+                    </td> 
+                             <td> @i.Severity</td>
+                             <td> @i.Category</td> 
+                             <td> @i.Description</td> 
+                             @* Data from Frontend to Backend, identified by Id *@
+                             <td>
+                                <form asp-action="CreateBug" asp-route-Id="@i.Id">
+                                <button type="submit" class="btn btn-info">+</button>
+                                </form>
+                             </td>
+                          </tr>
+                     }
+                }     
+  </tbody>
+</table>
+
+<form asp-action="CreateBug">
+    <button type="submit" class="btn btn-info float-end">Create new Bug</button>
+</form>
+
