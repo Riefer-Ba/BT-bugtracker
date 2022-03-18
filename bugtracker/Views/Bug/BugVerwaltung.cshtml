@@ -6,9 +6,8 @@
 @{
     ViewData["Title"] = "Manage bugs";
 }
-
 @* Create new Bug Form *@
-<div class="card" style="width: 42rem;">
+<div class="card mx-auto" style="width: 47rem;">
     <div class="card-header">
     <h5>Create and manage Bugs</h5>
     </div>
@@ -35,14 +34,14 @@
             }
 
          <div class="row">
-             <label class="form-label">Bug summary *</>
+             <label class="form-label">Bug summary *</center>
              <div class="col form-group">
                   <input asp-for="Description" placeholder="a short description" class="form-control" required/>
             </div>
          </div>
 
          <div class="row">
-             <label class="form-label">Approximate bug severity *</>
+             <label class="form-label">Approximate bug severity *</br>
              <div class="col form-group">
                   <input asp-for="Severity" placeholder="severity of bug 1-5" class="form-control" required/>
             </div>
@@ -50,7 +49,7 @@
 
         <div class="row">
              <div class="col form-group">
-                 <label class="form-label">Priority</>
+                 <label class="form-label">Priority</br>
          <select class="form-select" input asp-for="Priority">
                <option value="" selected disabled hidden>Select Priority</option>
                <option value="low">low</option>
@@ -61,7 +60,7 @@
             </div>
 
             <div class="col form-group">
-                <label class="form-label">Status</>
+                <label class="form-label">Status</br>
          <select class="form-select" input asp-for="Status">
                <option value="" selected disabled hidden>Select Status</option>
                <option value="open">open</option>
@@ -102,3 +101,4 @@
   </div>
   
 </div>
+
